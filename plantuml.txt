@@ -1,0 +1,64 @@
+@startuml
+
+class VendingMachine {
+  -status: String
+  -products: List<Product>
+  -controlPanel: ControlPanel
+  -shakeDetector: ShakeDetector
+  -paymentProcessor: PaymentProcessor
+  +getStatus(): String
+  +dispenseProduct(productId: int): Product
+  +checkProductSlot(slotId: int): bool
+  +lockMachine(): void
+  +enterMaintenanceMode(): void
+  +exitMaintenanceMode(): void
+}
+
+class Product {
+  -name: String
+  -price: float
+  -quantity: int
+  +getName(): String
+  +getPrice(): float
+  +getQuantity(): int
+  +reduceQuantity(amount: int): void
+  +restock(amount: int): void
+}
+
+class ControlPanel {
+  -displayMessage: String
+  -userInput: String
+  +acceptCommand(command: String): void
+  +displayMessage(message: String): void
+}
+
+class ShakeDetector {
+  -sensitivityLevel: int
+  +setSensitivityLevel(): int
+  +detectShake(): bool
+  +alertTechnician(): void
+}
+
+class Payment {
+  -amount: float
+  -type: String
+  +getAmount(): float
+  +getType(): String
+  +validate(): bool
+}
+
+class PaymentProcessor {
+  -acceptedPayments: List<String>
+  +processPayment(payment: Payment): bool
+  +refundPayment(amount: float): void
+  +verifyPayment(payment: Payment): bool
+}
+
+VendingMachine --* Product
+VendingMachine o-- ControlPanel
+VendingMachine o-- ShakeDetector
+VendingMachine o-- PaymentProcessor
+PaymentProcessor -- Payment
+
+
+@enduml
